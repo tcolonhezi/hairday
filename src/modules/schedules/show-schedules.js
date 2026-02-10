@@ -1,0 +1,1 @@
+const periodMorning = document.getEl;
