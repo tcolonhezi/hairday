@@ -4,21 +4,29 @@ import { hoursClick } from "../form/hours-click";
 
 const ulHours = document.querySelector(".hours");
 
-export function hoursOpening({ date }) {
+export function hoursOpening({ date, dailySchedules }) {
+  const unavailableHours = dailySchedules.map((hour) => {
+    return dayjs(hour.when).format("HH:mm");
+  });
+
   const opening = openingHours.map((hour) => {
     const [scheduleHour, scheduleMinutes] = hour.split(":");
+    const isUnavailable = unavailableHours.includes(
+      `${scheduleHour}:${scheduleMinutes}`,
+    );
 
     const dateHour = dayjs(date)
       .add(scheduleHour, "hour")
       .add(scheduleMinutes, "minute");
 
-    const isHourPast = dateHour.isAfter(dayjs());
+    const isHourPast = dateHour.isBefore(dayjs());
+    const available = !isHourPast && !isUnavailable;
 
     return {
       scheduleHour,
       scheduleMinutes,
       hour: dateHour.format("HH:mm"),
-      available: isHourPast,
+      available,
     };
   });
   return opening.sort((a, b) => {
@@ -34,12 +42,12 @@ export function hourHeaderAdd({ title }) {
   ulHours.appendChild(header);
 }
 
-export function hoursLoad({ date }) {
-  const opening = hoursOpening({ date });
+export function hoursLoad({ date, dailySchedules }) {
+  const opening = hoursOpening({ date, dailySchedules });
   ulHours.innerHTML = "";
   let lastPeriod = null;
 
-  opening.forEach(({ scheduleHour, scheduleMinutes, hour, available }) => {
+  opening.forEach(({ scheduleHour, hour, available }) => {
     // <li data-period="morning" value="09:00" class="hour hour-available">
     //   09:00
     // </li>
