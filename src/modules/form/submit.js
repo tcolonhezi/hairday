@@ -40,11 +40,11 @@ form.onsubmit = async (event) => {
 
     const id = new Date().getTime();
 
-    console.log({
-      id,
-      clientName,
-      when: when.toISOString(),
-    });
+    // console.log({
+    //   id,
+    //   clientName,
+    //   when: when.toISOString(),
+    // });
 
     await scheduleNew({ id, name: clientName, when });
   } catch (error) {

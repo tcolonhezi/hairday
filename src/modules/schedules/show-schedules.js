@@ -34,6 +34,8 @@ export function schedulesShow({ dailySchedules }) {
       name.textContent = schedule.name;
 
       //Adiciona tempo, nome e icone no item
+      // console.log(schedule);
+      item.id = schedule.id.toString();
       item.appendChild(time);
       item.appendChild(name);
       item.appendChild(cancelIcon);

@@ -14,5 +14,4 @@ import dayjs from "dayjs";
 import "./modules/form/submit.js";
 import "./modules/page-load.js";
 import "./modules/form/date-changed.js";
-
-console.log(dayjs().format("DD HH:mm"));
+import "./modules/schedules/cancel.js";
